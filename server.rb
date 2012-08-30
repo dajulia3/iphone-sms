@@ -1,4 +1,3 @@
-require 'bundler/setup'
 require 'sinatra'
 require 'sqlite3'
 
@@ -8,8 +7,9 @@ require 'sqlite3'
 #
 
 get '/' do
-  @messages = SMS_DB.execute( "select strftime('%Y-%m', date, 'unixepoch'), text, flags from message m0 where address = '#{ENV['ADDRESS']}'" ).inject({}) do |h, r|
-    month = r.shift ; h[month] ||= [] ; h[month] << r ; h
+  @messages =
+  #@messages = SMS_DB.execute( "select strftime('%Y-%m', date, 'unixepoch'), text, flags from message m0 where address = '#{ENV['ADDRESS']}'" ).inject({}) do |h, r|
+  #  month = r.shift ; h[month] ||= [] ; h[month] << r ; h
   end
   haml :index, :format => :html5
 end

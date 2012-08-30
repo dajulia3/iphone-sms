@@ -1,5 +1,7 @@
 class ABPerson < ContactsRecordBase
-  set_primary_key 'ROWID'
+  self.primary_key = 'ROWID'
+  self.table_name = 'ABPerson'
+
   def full_name
     First + Last
   end
