@@ -1,0 +1,3 @@
+class Message < SMSRecordBase
+
+end
