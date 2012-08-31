@@ -1,17 +1,21 @@
 require 'sinatra'
-require 'sqlite3'
+require 'active_record'
+require 'require_all'
+require_all 'models/db_helpers'
+require_all 'models'
 
-#Get Colin's name and number
-#SELECT First, Last, value FROM ABPerson, ABMultiValue WHERE ABPerson.First = "Colin"
-#AND ABPerson.ROWID = ABMultiValue.record_id
-#
+set :haml, :format => :html5
 
 get '/' do
-  @messages =
-  #@messages = SMS_DB.execute( "select strftime('%Y-%m', date, 'unixepoch'), text, flags from message m0 where address = '#{ENV['ADDRESS']}'" ).inject({}) do |h, r|
-  #  month = r.shift ; h[month] ||= [] ; h[month] << r ; h
-  end
-  haml :index, :format => :html5
+  @contacts = Contact.alphabetical_contacts
+  haml :index
+end
+
+get '/:id' do
+  contact = Contact.find(params[:id])
+  @contact_name = contact.full_name
+  @messages = contact.messages
+  haml :show
 end
 
 __END__
@@ -36,11 +40,18 @@ __END__
       %h1 ~ You and Me ~
       = yield
 
+@@ show
+%h2= "Convo Between You and #{@contact_name}"
+%ul{:class => [:messages, :month]}
+- for message in @messages
+  %li
+    %h3= message.sender_name
+    %div.text= message.text
+
+
 @@ index
-- @messages.each do |month, messages|
-  %h2= month
-  %ul{:class => [:messages, month]}
-    - for message in messages
-      %li
-        %h3= %[#{message[1] == 2 ? 'You' : 'Me'}:]
-        %p= message[0]
+%div hello
+%ul{:class => [:messages]}
+  - for contact in @contacts
+    %li
+      %a{:href=>"/#{contact.id}"}= contact.full_name

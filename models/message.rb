@@ -25,4 +25,13 @@ class Message < SMSRecordBase
   def received
     !address.nil?
   end
+
+  def sender_name
+    if sent?
+      "You"
+    else
+      number.contact.full_name
+    end
+
+  end
 end
