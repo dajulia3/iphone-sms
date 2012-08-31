@@ -8,10 +8,17 @@ class Message < SMSRecordBase
   #belongs_to :group
 
   def number
-    unless sms_numbers.nil? || sms_numbers[0].value.nil? || sms_numbers.size > 1
+    if !sms_numbers.nil? && !sms_numbers[0].nil? && !sms_numbers[0].value.nil? && !(sms_numbers.size > 1)
       sms_numbers[0]
-    else
+    elsif !imessage_numbers.nil? && !imessage_numbers[0].value.nil?
       imessage_numbers[0]
+    else
+      #custom query this mofo
+      if iMessage?
+        Number.numbers_like(madrid_handle).first
+      else
+        Number.numbers_like(address).first
+      end
     end
   end
   def is_group_message?
@@ -19,13 +26,16 @@ class Message < SMSRecordBase
   end
 
   def sent_by_me?
-    flags == 2
+    (iMessage? && madrid_flags == 12289) || flags != 2
   end
 
   def received_by_me?
     !sent_by_me?
   end
 
+  def iMessage?
+    is_madrid == 1
+  end
   def sender_name
     if sent_by_me?
       "You"
