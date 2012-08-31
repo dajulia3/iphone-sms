@@ -18,16 +18,16 @@ class Message < SMSRecordBase
     group_id != 0
   end
 
-  def sent?
-    address.nil?
+  def sent_by_me?
+    flags == 2
   end
 
-  def received
-    !address.nil?
+  def received_by_me?
+    !sent_by_me?
   end
 
   def sender_name
-    if sent?
+    if sent_by_me?
       "You"
     else
       number.contact.full_name
