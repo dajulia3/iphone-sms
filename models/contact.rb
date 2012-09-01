@@ -18,7 +18,7 @@ class Contact < ContactsRecordBase
 
   def messages
     msgs =[]
-    numbers.each{|num| msgs += num.messages}
+    numbers.each{|num|  Number.numbers_like(num)}.uniq.each{|n| msgs += n.messages}
     msgs
   end
 
