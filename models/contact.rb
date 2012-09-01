@@ -8,7 +8,7 @@ class Contact < ContactsRecordBase
   alias_attribute :last_name, :Last
 
   def self.alphabetical_contacts
-    #leave out contacts with no name -- I think those are reserved contacts for stuff apple does
+    #leave out contacts with no name -- I think those are reserved contacts for stuff apple does.
     self.order("Last ASC, First ASC").all.reject{|ctct| ctct.first_name.nil? && ctct.last_name.nil?}
   end
 
