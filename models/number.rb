@@ -2,7 +2,7 @@ class Number < ContactsRecordBase
   self.table_name = 'ABMultiValue'
   self.primary_key = 'UID'
   belongs_to :contact, :foreign_key => :record_id
-  has_many :sms_messages, :class_name => :Message, :foreign_key => :address, :primary_key => :value
+  #has_many :sms_messages, :class_name => :Message, :foreign_key => :address, :primary_key => :value
   alias_attribute :phone_number, :value
 
   scope :normal, where("value IS NOT NULL")
@@ -21,11 +21,11 @@ class Number < ContactsRecordBase
     parsed = "(#{parsed[0..2]}) #{parsed[3..5]}-#{parsed[6..9]}"
   end
 
-  def self.number_values_like number_string
-    @@number_values_like ||= {}
-    if @@number_values_like[number_string].nil?
+  def self.number_values_like_unverified number_string
+    @@number_values_like_unverified ||= {}
+    if @@number_values_like_unverified[number_string].nil?
       if number_string.nil? || number_string.strip ==""
-        @@number_values_like[number_string] = []
+        @@number_values_like_unverified[number_string] = []
       end
 
 
@@ -38,7 +38,15 @@ class Number < ContactsRecordBase
       parsed_values << "+1 " + paren_num
       parsed_values << "1 " + paren_num
       #parsed_values now contains possible number values for numbers similar to this one
+      @@number_values_like_unverified[number_string] = parsed_values
+    end
+      @@number_values_like_unverified[number_string]
+  end
 
+  def self.number_values_like number_string
+    @@number_values_like ||= {}
+    if @@number_values_like[number_string].nil?
+      parsed_values = number_values_like_unverified number_string
       valids = parsed_values.reject{ |val| Number.where(:value =>val).all.size == 0 }.uniq
       @@number_values_like[number_string] = valids
     end
@@ -56,6 +64,10 @@ class Number < ContactsRecordBase
     end
   end
 
+  def number_values_like_me
+    Number.number_values_like_unverified(value)
+  end
+
   def iMessage_handle
     Number.parse_to_iMessage_num value
   end
@@ -64,6 +76,9 @@ class Number < ContactsRecordBase
     iMessages = Message.where :madrid_handle => iMessage_handle
   end
 
+  def sms_messages
+    Message.where :address => number_values_like_me
+  end
   def messages
     #TODO -- rewrite with custom query that uses imessage handle.
     (iMessages + sms_messages).sort_by{|msg| msg.id}
