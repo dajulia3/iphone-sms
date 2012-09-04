@@ -2,9 +2,6 @@ require "date"
 class Message < SMSRecordBase
   self.primary_key = 'ROWID'
 
-  #has_many :sms_numbers, :class_name => "Number" , :primary_key => "address", :foreign_key => "value"
-  #has_many :imessage_numbers, :class_name => "Number", :primary_key => "madrid_handle", :foreign_key => "value"
-
   #TODO: Implement groups in future
   #belongs_to :group
 

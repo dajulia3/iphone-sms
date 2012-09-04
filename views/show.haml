@@ -1,0 +1,11 @@
+%h2= "Convo Between You and #{@contact_name}"
+%a{ :href=> @print_view_url} Printer Friendly Version
+%ul{:class => [:messages, :month]}
+- for message in @messages
+  %li{:class =>(message.sent_by_me? ? "sent-by-you" : "sent-by-other")}
+    %span.time= message.pretty_time_stamp
+    -msg_type = (message.iMessage? ? 'iMessage' : 'textMessage')
+    -msg_facing = "#{msg_type}-#{(message.sent_by_me? ? "right" : "left")}"
+    %div{:class =>[:speech, msg_type, msg_facing]}
+      %p= message.text
+    %h3= message.sender_name

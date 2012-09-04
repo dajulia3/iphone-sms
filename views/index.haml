@@ -1,0 +1,6 @@
+
+
+%ul{:class => [:messages]}
+  - for contact in @contacts
+    %li
+      %a{:href=>"/convo/#{contact.id}"}= contact.full_name

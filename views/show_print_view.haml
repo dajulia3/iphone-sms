@@ -1,0 +1,3 @@
+%h2= "Convo Between You and #{@contact_name}"
+- for message in @messages
+  %p= "#{message.sender_name} @ #{message.pretty_time_stamp}:\n#{message.text}<br/><br/>"
