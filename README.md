@@ -37,10 +37,11 @@ FAQ
 
 Future Improvements
 -------------------
-Turn it into something that I can deploy to the web for others to use to browse their text conversations online
-*Ajaxy search
-*Uploadable backups (so people can upload their sms logs and have them parsed/accessible). 
-*anything else cool I feel like adding!
+I'd like to turn it into something that I can deploy to the web for others to use to browse their text conversations online.
+To that end, I'd like to add the following features:
+*    Ajaxy search
+*    Uploadable backups (so people can upload their sms logs and have them parsed/accessible).
+*    anything else cool I feel like adding!
 
 
 Credit
