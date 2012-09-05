@@ -60,6 +60,6 @@ To that end, I'd like to add the following features:
 
 Credit
 ----------------
-Original inspiration and the basic CSS -- not the css for the conversation bubbles (which was a pain to get right)
+Original inspiration and the basic CSS -- not the css for the conversation bubbles (which was a pain to get right)-
 was taken from https://github.com/joshuap/valentine
 However at this point, there's no code that I reused from his original project aside from the base layout and css.
