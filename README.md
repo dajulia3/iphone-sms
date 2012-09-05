@@ -28,6 +28,20 @@ Within the project is an awesome set of Models using ActiveRecord to access the 
 Even though the naming scheme is not standard/preferred by ActiveRecord, the benefits of using ActiveRecord outweigh the slight configuration/fiddling around
 needed to get the project to work.
 
+By using ActiveRecord I have made the project easily extensible. If, for instanc, I want to find out the names of
+everyone to whom I messaged a particular dumb joke, that's possible. Or, if I'd like to find out the frequency with which I send
+messages, to a few members of my family, that's also possible (with some additional supporting code). The point is,
+ using ActiveRecord makes it easier for me to play around with cool features, and I'm happy with the result.
+
+ Also, it was a cool way to learn more about ActiveRecord -- I ended up subclassing ActiveRecord::Base because the tables of
+ interest were in two different databases: one for contacts, one for messages.
+
+ Another interesting implementation detail- texts and iMessages for the same contact are not all stored under the same
+ number/address value. What I mean by that is, say your friend's cell number is (303) 123-4567 , then his contact information
+ could store the number as (303) 123-4567, +13031234567, or a number of other ways. iMessages always use the standard
+ +13031234567, but some texts may be stored as (303) 123-4567, some as +13031234567 and others as +1(303) 123-4567.
+ It's all a bit messy, but eventually I got it to where all of my texts/iMessages were displaying correctly.
+
 
 FAQ
 -------------
